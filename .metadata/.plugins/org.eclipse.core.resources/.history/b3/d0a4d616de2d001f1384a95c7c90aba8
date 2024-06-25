@@ -1,0 +1,40 @@
+package com.sppm.GymManagementSystem.bean;
+
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+@Entity
+public class SlotItem {
+    @EmbeddedId
+    private SlotItemEmbed EmbeddedId;
+    private Integer seatBooked;
+
+    public SlotItem() {
+        super();
+        seatBooked = 0;
+    }
+
+    public SlotItem(SlotItemEmbed EmbeddedId, Integer seatBooked) {
+        super();
+        this.EmbeddedId = EmbeddedId;
+        this.seatBooked = seatBooked;
+    }
+
+    public SlotItemEmbed getEmbeddedId() {
+        return EmbeddedId;
+    }
+
+    public void setEmbeddedId(SlotItemEmbed embeddedId) {
+        this.EmbeddedId = EmbeddedId;
+    }
+
+    public Integer getSeatBooked() {
+        return seatBooked;
+    }
+
+    // Corrected setter method name
+    public void setSeatBooked(Integer seatBooked) {
+        this.seatBooked = seatBooked;
+    }
+
+}

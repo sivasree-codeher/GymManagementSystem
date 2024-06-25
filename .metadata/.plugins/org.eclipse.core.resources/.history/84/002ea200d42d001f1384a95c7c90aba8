@@ -1,0 +1,5 @@
+package com.sppm.GymManagementSystem.dao;
+
+public interface SlotRepository {
+
+}

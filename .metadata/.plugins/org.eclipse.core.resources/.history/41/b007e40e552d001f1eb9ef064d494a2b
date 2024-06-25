@@ -1,0 +1,51 @@
+package com.sppm.GymManagementSystem.bean;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Slot {
+	
+	@Id
+	private Long soltId;
+	private String soltTime;
+	private Double pricing;
+	
+	public Slot() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Slot(Long soltId, String soltTime, Double pricing) {
+		super();
+		this.soltId = soltId;
+		this.soltTime = soltTime;
+		this.pricing = pricing;
+	}
+
+	public Long getSoltId() {
+		return soltId;
+	}
+
+	public void setSoltId(Long soltId) {
+		this.soltId = soltId;
+	}
+
+	public String getSoltTime() {
+		return soltTime;
+	}
+
+	public void setSoltTime(String soltTime) {
+		this.soltTime = soltTime;
+	}
+
+	public Double getPricing() {
+		return pricing;
+	}
+
+	public void setPricing(Double pricing) {
+		this.pricing = pricing;
+	}
+	
+	
+}

@@ -1,0 +1,27 @@
+package com.sppm.GymManagementSystem.dao;
+
+import java.util.List;
+
+import com.sppm.GymManagementSystem.bean.GymItem;
+
+public class GymItemDaoImpl implements GymItemDao {
+
+	@Override
+	public void saveNewItem(GymItem gymItem) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<GymItem> displayAllItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GymItem findItemById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,12 @@
+package com.sppm.GymManagementSystem.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.sppm.GymManagementSystem.bean.Slot;
+
+
+
+
+public interface SlotRepository extends JpaRepository<Slot,Long>{
+
+}
