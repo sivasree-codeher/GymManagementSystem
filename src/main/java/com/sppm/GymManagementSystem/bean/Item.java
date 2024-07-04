@@ -1,24 +1,10 @@
 package com.sppm.GymManagementSystem.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
-public class GymItem {
-	@Id
+public class Item {
 	private Long itemId;
 	private String itemName;
 	private Integer totalSeat;
-    
-    
-	
-	public GymItem(Long itemId, String itemName, Integer totalSeat, Integer seatVacant) {
-		super();
-		this.itemId = itemId;
-		this.itemName = itemName;
-		this.totalSeat = totalSeat;
-		
-	}
+	private Integer seatVacant;
 	public Long getItemId() {
 		return itemId;
 	}
@@ -37,15 +23,29 @@ public class GymItem {
 	public void setTotalSeat(Integer totalSeat) {
 		this.totalSeat = totalSeat;
 	}
-	public GymItem() {
+	public Integer getSeatVacent() {
+		return seatVacant;
+	}
+	public void setSeatVacent(Integer seatVacent) {
+		this.seatVacant = seatVacent;
+	}
+	public Item() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public GymItem(Long itemId, String itemName, Integer totalSeat) {
+	public Item(Long itemId, String itemName, Integer totalSeat, Integer seatVacent) {
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.totalSeat = totalSeat;
+		this.seatVacant = seatVacent;
 	}
-	
+	public Item(GymItem gym) {
+		super();
+		this.itemId = gym.getItemId();
+		this.itemName = gym.getItemName();
+		this.totalSeat = gym.getTotalSeat();
+		this.seatVacant = 0;
+	}
+
 }
