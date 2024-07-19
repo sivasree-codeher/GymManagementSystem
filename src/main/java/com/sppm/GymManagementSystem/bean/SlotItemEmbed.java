@@ -2,7 +2,6 @@ package com.sppm.GymManagementSystem.bean;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
@@ -15,29 +14,7 @@ public class SlotItemEmbed implements Serializable{
 	
 	public SlotItemEmbed() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	
-
-	public Long getSlotId() {
-		return slotId;
-	}
-
-
-	public void setSlotId(Long slotId) {
-		this.slotId = slotId;
-	}
-
-
-	public Long getItemId() {
-		return itemId;
-	}
-
-
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
-	}
-
 
 	public SlotItemEmbed(@NotNull Long slotId, @NotNull Long itemId) {
 		super();
@@ -60,6 +37,22 @@ public class SlotItemEmbed implements Serializable{
 			return true;
 		else
 			return false;
+	}
+
+	public Long getSlotId() {
+		return slotId;
+	}
+
+	public void setSlotId(Long slotId) {
+		this.slotId = slotId;
+	}
+
+	public Long getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
 	}
 	
 	

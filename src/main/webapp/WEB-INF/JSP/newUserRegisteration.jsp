@@ -136,6 +136,11 @@ function validatePassword() {
 
             <label for="username">User ID:</label>
             <input type="text" id="username" name="username" required>
+            <label for="type">Select User Type:</label>
+  <select id="type" name="type">
+    <option value="admin">Admin</option>
+    <option value="customer">Customer</option>
+  </select>
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" pattern=".{8,}" title="Password must be at least 8 characters long" required>

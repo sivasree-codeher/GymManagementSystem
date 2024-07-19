@@ -9,16 +9,7 @@ public class GymItem {
 	private Long itemId;
 	private String itemName;
 	private Integer totalSeat;
-    
-    
-	
-	public GymItem(Long itemId, String itemName, Integer totalSeat, Integer seatVacant) {
-		super();
-		this.itemId = itemId;
-		this.itemName = itemName;
-		this.totalSeat = totalSeat;
-		
-	}
+//  private Integer seatBooked;
 	public Long getItemId() {
 		return itemId;
 	}
@@ -39,7 +30,6 @@ public class GymItem {
 	}
 	public GymItem() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public GymItem(Long itemId, String itemName, Integer totalSeat) {
 		super();
@@ -47,5 +37,11 @@ public class GymItem {
 		this.itemName = itemName;
 		this.totalSeat = totalSeat;
 	}
-	
+	public GymItem(Item item) {
+		super();
+		this.itemId=itemId;
+		this.itemName=itemName;
+		this.totalSeat=totalSeat;
+		
+	}
 }

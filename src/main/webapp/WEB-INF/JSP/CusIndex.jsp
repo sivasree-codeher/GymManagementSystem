@@ -10,7 +10,7 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-image: url("/images/gym1.jpg");
+    background-image: url("/images/gym5.jpg");
     background-size: cover;
     background-position: unset; 
     background-repeat: no-repeat;
@@ -87,17 +87,9 @@ li ul li a:hover {
 		<h3>
 			<ul>
 				<li><a href="/index">Home</a></li>
-				<li><a>Gym Services</a>
-					<ul>
-						<li><a href="/gymServiceEntryPage">Add Gym Service</a></li>
-						<li><a href="/gymServiceReport">View Gym Services</a></li>
-					</ul></li>
-				<li><a>Manage Slot</a>
-					<ul>
-						<li><a href="/gymSlotEntryPage">Add Gym Slot</a></li>
-						<li><a href="/gymSlotReport">View Gym Slots</a></li>
-					</ul></li>
-				<li><a href="/queries">Queries</a></li>
+				<li><a href="/gymSlotReport">Book You Space</a></li>
+				<li><a href="/customerBooking">Booking-Details</a></li>
+				<li><a href="/feedback">FeedBack</a></li>
 				<li><a href="/logout">Logout</a>&nbsp;&nbsp;</li>
 			</ul>
 		</h3>

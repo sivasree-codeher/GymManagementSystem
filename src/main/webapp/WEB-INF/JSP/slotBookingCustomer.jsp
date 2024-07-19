@@ -10,7 +10,7 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-image: url("/images/gym5.jpg");
+        background-image: url("/images/gym2.jpg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -95,14 +95,14 @@
 </style>
 </head>
 <body>
-    <div>
+    <div> 
         <h3>Slot ID: ${slot.slotId}</h3>
         <h3>Slot Time: ${slot.slotTime}</h3>
         <h3>Pricing: ${slot.pricing}</h3>
     </div>
     <div>
-        <form>
-            <input type="hidden" value="${slot.slotId}" name="slot_id"/>
+        <form action="/slot-book" method="post">
+            <input type="hidden" value="${slot.slotId}" name="slotId"/>
             <table>
                 <tr>
                     <th>Item No</th>
@@ -117,7 +117,7 @@
                         <td>${item.itemName}</td>
                         <td>${item.totalSeat}</td>
                         <td>${item.seatVacent}</td>
-                        <td><input name="selectItem" type="radio" value="${item.itemId}"/></td>
+                        <td><input name="itemId" type="radio" value="${item.itemId}" required/></td>
                     </tr>
                 </c:forEach>
             </table>

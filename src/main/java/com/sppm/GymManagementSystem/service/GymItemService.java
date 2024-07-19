@@ -1,12 +1,9 @@
 package com.sppm.GymManagementSystem.service;
 
 import java.util.ArrayList;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,44 +24,40 @@ public class GymItemService {
 	@Autowired
 	private SlotItemDao slotItemDao;
 	
-	public List<Item> getItemList(Long slotId){
-		List<Item> itemList =new ArrayList<>();
-		List<GymItem> gymList=gymItemDao.displayAllItems();
-		for(GymItem gym: gymList) {
+	public List<Item> getItemList(Long slotId) {
+		List<Item> itemList = new ArrayList<>();
+		List<GymItem> gymList = gymItemDao.displayAllItems();
+		for (GymItem gym : gymList) {
 			Item item = new Item(gym);
 			SlotItemEmbed embed = new SlotItemEmbed(slotId, gym.getItemId());
-			Integer seatBooked=slotItemDao.findSeatBookedById(embed);
-			if(seatBooked == null)
+			Integer seatBooked = slotItemDao.findSeatBookedById(embed);
+			if (seatBooked == null) {
 				seatBooked = 0;
-			int seatVacent=gym.getTotalSeat()-seatBooked.intValue();
+			}
+			// Ensure getTotalSeat() is not null and default to 0 if it is
+			int totalSeat = (gym.getTotalSeat() != null) ? gym.getTotalSeat() : 0;
+			int seatVacent = totalSeat - seatBooked.intValue();
 			item.setSeatVacent(seatVacent);
 			itemList.add(item);
 		}
 		return itemList;
 	}
-
-	
 	
 	public void addNewitemToSlots(Long itemId) {
-		Set<SlotItemEmbed> embedSet=slotItemDao.findAllEmbeds();
-		Set<Long> itemSet=new HashSet<>();
-		Set<Long> slotSet=new HashSet<>();
+		Set<SlotItemEmbed> embedSet = slotItemDao.findAllEmbed();
+		Set<Long> itemSet = new HashSet<>();
+		Set<Long> slotSet = new HashSet<>();
 		
-		for(SlotItemEmbed embed:embedSet) {
+		for (SlotItemEmbed embed : embedSet) {
 			itemSet.add(embed.getItemId());
 			slotSet.add(embed.getSlotId());
 		}
-		if(itemSet.contains(itemId)==false) {
-			for(Long slotId:slotSet) {
-				SlotItemEmbed embed = new SlotItemEmbed(slotId,itemId);
+		if (!itemSet.contains(itemId)) {
+			for (Long slotId : slotSet) {
+				SlotItemEmbed embed = new SlotItemEmbed(slotId, itemId);
 				SlotItem slotItem = new SlotItem(embed);
 				slotItemDao.save(slotItem);
 			}
 		}
 	}
-
-}	 
-    
-    
-    
-	
+}
