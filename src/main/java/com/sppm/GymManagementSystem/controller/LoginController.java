@@ -12,18 +12,20 @@ import com.sppm.GymManagementSystem.bean.GymUser;
 import com.sppm.GymManagementSystem.service.GymUserService;
 
 @RestController
-public class LoginController {
+public class loginController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
 	@Autowired
 	private GymUserService service;
+//	@Autowired
+//	private GymUser gymUser;
 	
 	@GetMapping("/register")
 	public ModelAndView showUserRegisterPage() {
-		GymUser user = new GymUser();
-		ModelAndView mv = new ModelAndView("newUserRegisteration");
-		mv.addObject("userRecord",user);
+		GymUser gymUser = new GymUser();
+		ModelAndView mv = new ModelAndView("newUserRegistration");
+		mv.addObject("userRecord",gymUser);
 		return mv;
 	}
 	
@@ -44,12 +46,13 @@ public class LoginController {
 	
 	@GetMapping("/loginerror")
 	public ModelAndView showLoginErrorPage() {
-		return new ModelAndView("loginError");
+		return new ModelAndView("loginErrorPage");
 	}
 	
 	@GetMapping("/loginpage")
 	public ModelAndView showLoginPage() {
 		return new ModelAndView("loginPage");
 	}
+	
 	
 }

@@ -27,25 +27,22 @@ public class GymUserService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
-		GymUser users= repository.findById(username).get();
+		users= repository.findById(username).get();
 		type=users.getType();
 		return users;
 	}
 	
-	
-
-	public List<String> getAllCustomer(){
-		return repository.findAllCustomerUsers();
+	public List<GymUser> getAllCustomer(){
+		return repository.findAllCoustomerUsers();
 	}
-
+	
 	public GymUser getUser() {
 		return users;
 	}
-}
 
-	
-
+	public void deleteUserById(String username) {
 		
-
-
-
+		repository.delete(users);
+		
+	}
+}

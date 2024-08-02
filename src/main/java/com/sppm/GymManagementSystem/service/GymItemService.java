@@ -24,19 +24,16 @@ public class GymItemService {
 	@Autowired
 	private SlotItemDao slotItemDao;
 	
-	public List<Item> getItemList(Long slotId) {
-		List<Item> itemList = new ArrayList<>();
-		List<GymItem> gymList = gymItemDao.displayAllItems();
-		for (GymItem gym : gymList) {
+	public List<Item> getItemList(Long slotId){
+		List<Item> itemList =new ArrayList<>();
+		List<GymItem> gymList=gymItemDao.displayAllItem();
+		for(GymItem gym: gymList) {
 			Item item = new Item(gym);
 			SlotItemEmbed embed = new SlotItemEmbed(slotId, gym.getItemId());
-			Integer seatBooked = slotItemDao.findSeatBookedById(embed);
-			if (seatBooked == null) {
+			Integer seatBooked=slotItemDao.findSeatBookedById(embed);
+			if(seatBooked == null)
 				seatBooked = 0;
-			}
-			// Ensure getTotalSeat() is not null and default to 0 if it is
-			int totalSeat = (gym.getTotalSeat() != null) ? gym.getTotalSeat() : 0;
-			int seatVacent = totalSeat - seatBooked.intValue();
+			int seatVacent=gym.getTotalSeat()-seatBooked.intValue();
 			item.setSeatVacent(seatVacent);
 			itemList.add(item);
 		}
@@ -44,17 +41,17 @@ public class GymItemService {
 	}
 	
 	public void addNewitemToSlots(Long itemId) {
-		Set<SlotItemEmbed> embedSet = slotItemDao.findAllEmbed();
-		Set<Long> itemSet = new HashSet<>();
-		Set<Long> slotSet = new HashSet<>();
+		Set<SlotItemEmbed> embedSet=slotItemDao.findAllEmbed();
+		Set<Long> itemSet=new HashSet<>();
+		Set<Long> slotSet=new HashSet<>();
 		
-		for (SlotItemEmbed embed : embedSet) {
+		for(SlotItemEmbed embed:embedSet) {
 			itemSet.add(embed.getItemId());
 			slotSet.add(embed.getSlotId());
 		}
-		if (!itemSet.contains(itemId)) {
-			for (Long slotId : slotSet) {
-				SlotItemEmbed embed = new SlotItemEmbed(slotId, itemId);
+		if(itemSet.contains(itemId)==false) {
+			for(Long slotId:slotSet) {
+				SlotItemEmbed embed = new SlotItemEmbed(slotId,itemId);
 				SlotItem slotItem = new SlotItem(embed);
 				slotItemDao.save(slotItem);
 			}

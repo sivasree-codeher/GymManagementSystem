@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-
 import com.sppm.GymManagementSystem.service.GymUserService;
 
 @Configuration
@@ -18,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private GymUserService service;
 	@Autowired
-	private Encoderconfig econfig;
+	private EncoderConfig econfig;
 
 	@Autowired
 	@Override

@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import com.sppm.GymManagementSystem.bean.GymUser;
 
 public interface GymUserRepository extends JpaRepository<GymUser, String> {
-	Optional<GymUser> findByUsername(String username);
+//	Optional<GymUser> findByUsername(String username);
 
-	@Query("select username from GymUser where type='customer'")
-	public List<String> findAllCustomerUsers();
+	@Query("SELECT g FROM GymUser g WHERE g.type = 'customer'")
+	public List<GymUser> findAllCoustomerUsers();
 }

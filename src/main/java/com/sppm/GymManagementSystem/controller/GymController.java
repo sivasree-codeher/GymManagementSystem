@@ -1,10 +1,11 @@
 package com.sppm.GymManagementSystem.controller;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.core.userdetails.User;
 
+import com.sppm.GymManagementSystem.bean.Feedback;
 import com.sppm.GymManagementSystem.bean.GymBook;
 import com.sppm.GymManagementSystem.bean.GymItem;
 import com.sppm.GymManagementSystem.bean.GymUser;
@@ -20,11 +23,11 @@ import com.sppm.GymManagementSystem.bean.Item;
 import com.sppm.GymManagementSystem.bean.Slot;
 import com.sppm.GymManagementSystem.bean.SlotItem;
 import com.sppm.GymManagementSystem.bean.SlotItemEmbed;
+import com.sppm.GymManagementSystem.dao.FeedbackDao;
 import com.sppm.GymManagementSystem.dao.GymBookDao;
 import com.sppm.GymManagementSystem.dao.GymItemDao;
 import com.sppm.GymManagementSystem.dao.SlotDao;
 import com.sppm.GymManagementSystem.dao.SlotItemDao;
-import com.sppm.GymManagementSystem.exception.SeatAlreadyBookedException;
 import com.sppm.GymManagementSystem.exception.SeatNotAvailableException;
 import com.sppm.GymManagementSystem.service.GymItemService;
 import com.sppm.GymManagementSystem.service.GymUserService;
@@ -52,8 +55,11 @@ public class GymController {
 
 	@Autowired
 	private GymUser user;
-
 	
+	@Autowired
+	private FeedbackDao feedbackDao;
+
+	/*---------------------------------------------------------------------*/
 	/* Home Page Mapping */
 	@GetMapping("/index")
 	public ModelAndView showIndexPage() {
@@ -68,14 +74,7 @@ public class GymController {
 	}
 
 	
-	/* FeedBack Form page Mapping */
-
-	@GetMapping("/feedback")
-	public ModelAndView showFeedbacks() {
-		return new ModelAndView("feedback");
-	}
-
-
+	/*---------------------------------------------------------------------*/
 	/* Gym Service Mappings */
 
 	@GetMapping("/gymServiceEntryPage")
@@ -96,13 +95,13 @@ public class GymController {
 
 	@GetMapping("/gymServiceReport")
 	public ModelAndView showGymServiceTable() {
-		List<GymItem> itemList = gymItemDao.displayAllItems();
+		List<GymItem> itemList = gymItemDao.displayAllItem();
 		ModelAndView mv = new ModelAndView("gymServiceReport");
 		mv.addObject("itemList", itemList);
 		return mv;
 	}
 
-	
+	/*---------------------------------------------------------------------*/
 	/* Gym Slot Mappings */
 
 	@GetMapping("/gymSlotEntryPage")
@@ -118,7 +117,7 @@ public class GymController {
 	@PostMapping("/gymSlot")
 	public ModelAndView saveGymSlot(@ModelAttribute("itemRecord") Slot slot) {
 		slotDao.saveNewItem(slot);
-		List<GymItem> itemList = gymItemDao.displayAllItems();
+		List<GymItem> itemList = gymItemDao.displayAllItem();
 		for (GymItem item : itemList) {
 			SlotItemEmbed embed = new SlotItemEmbed(slot.getSlotId(), item.getItemId());
 			SlotItem slotitem = new SlotItem(embed);
@@ -127,10 +126,18 @@ public class GymController {
 		return new ModelAndView("redirect:/index");
 	}
 
-	@GetMapping("/gymSlotReport")
-	public ModelAndView showGymSlotTable() {
+	@GetMapping("/admin-gymSlotReport")
+	public ModelAndView showAdminGymSlotTable() {
 		List<Slot> slotList = slotDao.displayAllSlot();
-		ModelAndView mv = new ModelAndView("gymSlotReport");
+		ModelAndView mv = new ModelAndView("admin-gymSlotReport");
+		mv.addObject("slotList", slotList);
+		return mv;
+	}
+	
+	@GetMapping("/customer-gymSlotReport")
+	public ModelAndView showCustomerGymSlotTable() {
+		List<Slot> slotList = slotDao.displayAllSlot();
+		ModelAndView mv = new ModelAndView("customer-gymSlotReport");
 		mv.addObject("slotList", slotList);
 		return mv;
 	}
@@ -207,7 +214,7 @@ public class GymController {
 	public ModelAndView saveSlotBooking(@RequestParam("slotId") Long slotId, @RequestParam("itemId") Long itemId,
 	        Principal principal) {
 
-		String username= principal.getName();
+		String username= userService.getUser().getUsername();
 	    List<GymBook> bookingList = gymBookDao.getUserNameBookList(username);
 
 	    
@@ -261,7 +268,7 @@ public class GymController {
 		String fname = "";
 		String userType = userService.getType();
 		if (userType.equalsIgnoreCase("Admin")) {
-			fname = "SlotBookingAdmin";
+			fname = "slotBookingAdmin";
 		} else if (userType.equalsIgnoreCase("Customer")) {
 			fname = "slotBookingCustomer";
 		}
@@ -271,7 +278,7 @@ public class GymController {
 		mv.addObject("slot", slot);
 		mv.addObject("itemList", itemList);
 		if (userType.equalsIgnoreCase("Admin")) {
-			List<String> userList = userService.getAllCustomer();
+			List<GymUser> userList = userService.getAllCustomer();
 			mv.addObject("userList", userList);
 		}
 
@@ -298,16 +305,16 @@ public class GymController {
 			booking.setItem(item);
 		}
 
-		ModelAndView mv = new ModelAndView("customerBookingDetails");
+		ModelAndView mv = new ModelAndView("customerBooking");
 		mv.addObject("bookingList", bookingList);
 
 		return mv;
 	}
 
 	@GetMapping("/cancel-booking/{id}")
-	public ModelAndView deleteCustomerBooking(@PathVariable Long id,Principal principal) {
+	public ModelAndView deleteCustomerBooking(@PathVariable Long id) {
 		GymBook booking = gymBookDao.findBookInfoById(id);
-		String username=principal.getName();
+		String username=userService.getUser().getUsername();
 
 			SlotItemEmbed embed = new SlotItemEmbed(booking.getSlotId(), booking.getItemId());
 			SlotItem slotItem = slotItemDao.findById(embed);
@@ -341,5 +348,112 @@ public class GymController {
 
 		return new ModelAndView("redirect:/adminBookingDetails");
 	}
+	
+	 @GetMapping("/updateGymItem/{id}")
+	    public ModelAndView showUpdateGymItemPage(@PathVariable("id") Long id) {
+	        GymItem gymItem = gymItemDao.findItemById(id);
+	            ModelAndView mv = new ModelAndView("updateGymItem");
+	            mv.addObject("gymItem", gymItem);
+	            return mv;
+	    }
+
+    @PostMapping("/updateGymItem")
+    public ModelAndView updateGymItem(@RequestParam("itemId") Long itemId,
+                                      @RequestParam("itemName") String itemName,
+                                      @RequestParam("totalSeat") int totalSeat) {
+        GymItem gymItem = gymItemDao.findItemById(itemId);
+        if (gymItem != null) {
+            gymItem.setItemName(itemName);
+            gymItem.setTotalSeat(totalSeat);
+            gymItemDao.saveNewItem(gymItem);
+        }
+        return new ModelAndView("redirect:/gymServiceReport");
+    }
+    
+    
+    @GetMapping("/slot-update/{id}")
+    public ModelAndView showUpdateSlotItemPage(@PathVariable("id") Long id) {
+    	Slot slot = slotDao.findSlotById(id);
+    	ModelAndView mv = new ModelAndView("updateSlot");
+    	mv.addObject("itemRecord", slot);
+    	return mv;
+    }
+   
+    
+    @PostMapping("/slot-update")
+    public ModelAndView updateSlotPage(@RequestParam("slotTime") String slotTime,
+    								   @RequestParam("pricing") Double pricing,
+    								   @RequestParam("slotId") Long slotId){
+		
+    	Slot slot = slotDao.findSlotById(slotId);
+    	if(slot != null) {
+    		slot.setSlotTime(slotTime);
+    		slot.setPricing(pricing);
+    		slotDao.saveNewItem(slot);
+    	}
+    	
+    	return new ModelAndView("redirect:/admin-gymSlotReport");
+    }
+    	
+    	/*---------------------------------------------------------------------*/
+    	/* FeedBack Form page Mapping */
+
+    	@GetMapping("/feedback")
+        public ModelAndView showFeedbackForm() {
+            return new ModelAndView("feedback");
+        }
+
+        @PostMapping("/feedback")
+        public ModelAndView submitFeedback(@ModelAttribute Feedback feedback,@RequestParam("feedbackContent") String feedbackContent,@AuthenticationPrincipal User user) {
+        	feedback.setTimestamp(LocalDateTime.now());
+        	feedback.setUsername(user.getUsername());
+        	feedbackDao.saveFeedback(feedback);
+            return new ModelAndView("thankyou");
+        }
+        
+        @GetMapping("/Feedback-Details")
+        public ModelAndView showFeedbackDetails() {
+            List<Feedback> feedbackList = feedbackDao.getAllFeedbacks();
+            System.out.println("Feedback List: " + feedbackList);
+            ModelAndView mv = new ModelAndView("Feedback-Details");
+            mv.addObject("feedbackList", feedbackList);
+            return mv;
+        }
+        
+        /*------------------------------------------------------------------------------------------*/
+        
+        @GetMapping("/customer-details")
+        public ModelAndView showCustomerDetails() {
+            List<GymUser> userList = userService.getAllCustomer();
+            System.out.println(" User List: " + userList);
+            ModelAndView mv = new ModelAndView("Customer-Details");
+            mv.addObject("userList", userList);
+            return mv;
+        }
+        
+        @GetMapping("/deleteCustomer/{username}")
+        public ModelAndView deleteCustomer(@PathVariable("username") String username, Principal principal) {
+          
+            String loggedInUsername = principal.getName();
+            String loggedInUserType = ((GymUser) userService.loadUserByUsername(loggedInUsername)).getType();
+
+            System.out.println("Logged in User Type: " + loggedInUserType);
+            System.out.println("Attempting to delete user: " + username);
+
+            if (loggedInUserType != null && loggedInUserType.equalsIgnoreCase("Admin")) {
+        
+                GymUser userToDelete = (GymUser) userService.loadUserByUsername(username);
+
+                if (userToDelete != null && userToDelete.getType().equalsIgnoreCase("Customer")) {
+                    userService.deleteUserById(username);
+                    System.out.println("Successfully deleted user: " + username);
+                } else {
+                    System.out.println("User to be deleted does not match CUSTOMER type or does not exist");
+                }
+            } else {
+                System.out.println("Logged in user does not have ADMIN privileges");
+            }
+            return new ModelAndView("redirect:/customer-details");
+        }
 
 }

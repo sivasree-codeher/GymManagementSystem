@@ -4,7 +4,7 @@ public class Item {
 	private Long itemId;
 	private String itemName;
 	private Integer totalSeat;
-	private Integer seatVacant;
+	private Integer seatVacent;
 	public Long getItemId() {
 		return itemId;
 	}
@@ -24,10 +24,10 @@ public class Item {
 		this.totalSeat = totalSeat;
 	}
 	public Integer getSeatVacent() {
-		return seatVacant;
+		return seatVacent;
 	}
 	public void setSeatVacent(Integer seatVacent) {
-		this.seatVacant = seatVacent;
+		this.seatVacent = seatVacent;
 	}
 	public Item() {
 		super();
@@ -38,14 +38,14 @@ public class Item {
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.totalSeat = totalSeat;
-		this.seatVacant = seatVacent;
+		this.seatVacent = seatVacent;
 	}
 	public Item(GymItem gym) {
 		super();
 		this.itemId = gym.getItemId();
 		this.itemName = gym.getItemName();
 		this.totalSeat = gym.getTotalSeat();
-		this.seatVacant = 0;
+		this.seatVacent = 0;
 	}
 
 }

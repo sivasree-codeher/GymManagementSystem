@@ -12,7 +12,7 @@ body {
 	padding: 0;
 	font-family: Arial, sans-serif;
 	text-align: center;
-	background-image: url("/images/gym2.jpg");
+	background-image: url("/images/gym5.jpg");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -85,18 +85,19 @@ button:hover {
 </head>
 <body>
 	<div class="container">
-		<form action="post">
-			<h2>Write us your feedback</h2>
-			<label for="fname">First name:</label><br> 
-			<input type="text"id="fname" name="fname" required><br> 
-			<label for="lname">Last name:</label><br> 
-			<input type="text"id="lname" name="lname" required><br> 
-			<label for="email">Email:</label><br>
-			<input type="email" id="email" name="email" required><br>
-			<label for="feedback">Write Your feedback:</label><br />
-			<textarea name="query" rows="10" cols="30"placeholder="Write Us your feedback"></textarea>
+		<form action="/feedback" method="post">
+			<h2>Write us your Feedback</h2>
+			<input type="hidden" name="feedbackId" value="${feedback.feedbackId}"/>
+			<label for="fname">User name:</label><br> 
+			<input type="text"id="username" name="username"  required><br>
+			 
+			<label for="feedback">Write Your Feedback:</label><br />
+			<textarea name="feedbackContent" rows="10" cols="30"placeholder="Write Us your Feedback"></textarea>
+			
+			<input type="hidden" name="timestamp" value="${feedback.timestamp}"/>
+			
 			<input type="submit" value="Submit">
-			<button onclick="location.href='/index'">Home</button>
+			<a href="/index"><button>Home</button></a>
 		</form>
 	</div>
 

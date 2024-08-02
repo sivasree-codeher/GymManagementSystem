@@ -6,8 +6,11 @@
     <title>Booking Successful</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8f9fa;
+            font-family: Arial, sans-serif;
+            background-image: url("/images/gym4.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             color: #333;
             margin: 0;
             padding: 0;
@@ -16,44 +19,70 @@
             align-items: center;
             height: 100vh;
         }
-        .confirmation {
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
             text-align: center;
-            background: #fff;
-            border-radius: 8px;
-            padding: 40px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
         }
-        .confirmation h1 {
-            color: #007bff;
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
             margin-bottom: 20px;
         }
-        .confirmation p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 10px;
+
+        p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
         }
-        .home-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #007bff;
-            transition: color 0.3s ease;
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
-        .home-link:hover {
-            color: #0056b3;
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .home-button {
+            background-color: #555;
+        }
+
+        .home-button:hover {
+            background-color: #333;
         }
     </style>
 </head>
 <body>
-    <div class="confirmation">
+    <div class="container">
         <h1>Booking Successful!</h1>
         <p>Your slot has been successfully booked.</p>
         <p>Slot Timing: ${slot.slotTime}</p>
         <p>Gym Service: ${item.itemName}</p>
-        <a href="/index" class="home-link">Home</a> <!-- Adjust the link to your home page -->
+        <div class="button-container">
+            <a href="/index"><button class="home-button">Home</button></a>
+        </div>
     </div>
 </body>
 </html>

@@ -10,10 +10,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.GrantedAuthority;
 
-
-
-@Component
 @Entity
+@Component
 public class GymUser extends User{
 	
 	@Id
@@ -86,12 +84,11 @@ public class GymUser extends User{
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	@Override
-	public String toString() {
-		return "GymUser [username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", email=" + email + ", type=" + type + "]";
-	}
 	
+//	@Override
+//	public String toString() {
+//		return "GymUser [username=" + username + ", password=" + password + ", firstName=" + firstName + ", lastName="
+//				+ lastName + ", email=" + email + ", type=" + type + "]";
+//	}
 	
 }
